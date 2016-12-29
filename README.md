@@ -21,7 +21,7 @@ Installation (Debian)
    Es sollte keine Software vorausgewählt sein.)
 * Als Benutzer `root`:
     * Git installieren:  
-        `apt-get -y --no-install-recommends install openssh-client git`
+        `apt-get -y --no-install-recommends install git`
     * Repository klonen:  
         `git clone https://github.com/michz/shinage-player-debian.git`
     * Ins neue Verzeichnis wechseln:  
