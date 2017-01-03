@@ -12,7 +12,7 @@ UHOME=/home/sign
 apt-get update
 
 # base system command line tools
-apt-get -y --no-install-recommends install sudo dropbear
+apt-get -y --no-install-recommends install sudo dropbear curl uuid-runtime
 
 # webserver
 ./install-nginx.sh
@@ -41,6 +41,15 @@ cp $SCRIPTPATH/skeleton/.screenrc $UHOME/
 cp $SCRIPTPATH/skeleton/.xsession $UHOME/
 #chmod ugo+rx $SCRIPTPATH/skeleton/.xsession
 
+# copy configuration
+mkdir /etc/shinage-player
+cp -r $SCRIPTPATH/skeleton/shinage-player-conf/* /etc/shinage-player/
+chmod 755 /etc/shinage-player/
+chmod -R 644 /etc/shinage-player/*
+
+# generate display ID
+uuidgen > /etc/shinage-player/uuid.conf
+
 mkdir -p /usr/local/bin/
 cp $SCRIPTPATH/skeleton/run-browser.sh /usr/local/bin/run-browser.sh
 chmod ugo+rx /usr/local/bin/run-browser.sh
@@ -48,7 +57,8 @@ chmod ugo+rx /usr/local/bin/run-browser.sh
 
 # x server / graphical system
 apt-get -y --no-install-recommends install chromium x11-xserver-utils \
-    unclutter xinit xserver-xorg-video-fbdev xserver-xorg-input-evdev
+    unclutter xinit xserver-xorg-video-fbdev xserver-xorg-input-evdev \
+    scrot imagemagick
 
 # create symlink for X server start
 ln -s /usr/bin/Xorg /usr/bin/X
@@ -79,4 +89,6 @@ echo "www-data  ALL = NOPASSWD: /sbin/reboot,/sbin/poweroff" >> /etc/sudoers
 
 
 
+# cleanup
+apt-get remove uuid-tools
 
