@@ -6,6 +6,9 @@
 # Distributed under terms of the MIT license.
 #
 
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+UHOME=/home/sign
 
 apt-get -y --no-install-recommends install uuid-runtime
 
@@ -16,4 +19,7 @@ chmod -R 644 /etc/shinage-player/*
 
 # generate display ID
 uuidgen > /etc/shinage-player/uuid.conf
+
+# cleanup
+apt-get -y remove uuid-runtime
 
