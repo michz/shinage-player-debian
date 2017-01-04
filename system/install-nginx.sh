@@ -6,7 +6,7 @@
 
 
 # base system command line tools
-apt-get -y --no-install-recommends install nginx-light php5-fpm
+apt-get -y --no-install-recommends install nginx-light php5-fpm php-curl
 
 
 mkdir -p /var/www/diagnostics
