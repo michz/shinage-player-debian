@@ -70,6 +70,10 @@ adduser sign video
 cp $SCRIPTPATH/skeleton/screenshot.sh /usr/local/bin/
 chmod ugo+rx /usr/local/bin/screenshot.sh
 
+# screenshot cron (remove and install)
+crontab -r -u sign
+echo "* * * * * /usr/local/bin/screenshot.sh" | crontab -u sign -
+
 
 # create mount folder for usb sticks and install udev scripts
 mkdir -p /mnt/usb

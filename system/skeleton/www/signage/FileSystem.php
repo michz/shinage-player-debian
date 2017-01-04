@@ -58,7 +58,7 @@ class FileSystem {
             $abs = $path . '/' . $f;
             $i = pathinfo($abs);
 
-            if (in_array($i['extension'], self::$EXT_IMAGE)) {
+            if (isset($i['extension']) && in_array($i['extension'], self::$EXT_IMAGE)) {
                 $p = new Playable('img', $f);
                 $r[] = $p;
             }

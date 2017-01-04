@@ -33,8 +33,8 @@ mogrify -font $FONT \
 	-draw "text $X, $Y '$text'" -resize '400x400' $FILE
 
 
-# TODO upload
-URL=$(cat /etc/shinage-player/screenshot-url.conf)
+# upload
+URL=$(cat /etc/shinage-player/screenshot_url.conf)
 UUID=$(cat /etc/shinage-player/uuid.conf)
 
 curl \
