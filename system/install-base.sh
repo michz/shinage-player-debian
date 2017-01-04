@@ -1,7 +1,9 @@
 #! /bin/bash
 #
 # install-base.sh
-# Copyright (C) 2016 Michael Zapf <michi.zapf@mztx.de>
+# Copyright (C) 2017 Michael Zapf <michi.zapf@mztx.de>
+#
+# Distributed under terms of the MIT license.
 #
 
 SCRIPT=$(readlink -f "$0")
@@ -15,7 +17,7 @@ apt-get update
 apt-get -y --no-install-recommends install sudo dropbear curl uuid-runtime
 
 # webserver
-./install-nginx.sh
+/bin/bash $SCRIPTPATH/install-nginx.sh
 
 
 # create user
@@ -27,28 +29,22 @@ adduser --disabled-password --gecos 'sign' --home $UHOME --shell /bin/bash sign
 
 # create symlinks and adjust rights
 cp $SCRIPTPATH/skeleton/.bash_aliases $UHOME/
-#chmod ugo+rx $SCRIPTPATH/skeleton/.bash_aliases
+chmod ugo+rx $UHOME/.bash_aliases
 
 cp $SCRIPTPATH/skeleton/.profile $UHOME/
-#chmod ugo+rx $SCRIPTPATH/skeleton/.profile
+chmod ugo+rx $UHOME/.profile
 
 #cp $SCRIPTPATH/skeleton/.bash_aliases $UHOME/
-#chmod ugo+rx $SCRIPTPATH/skeleton/.bash_aliases
+chmod ugo+rx $UHOME/.bash_aliases
 
 cp $SCRIPTPATH/skeleton/.screenrc $UHOME/
-#chmod ugo+rx $SCRIPTPATH/skeleton/.screenrc
+chmod ugo+rx $UHOME/.screenrc
 
 cp $SCRIPTPATH/skeleton/.xsession $UHOME/
-#chmod ugo+rx $SCRIPTPATH/skeleton/.xsession
+chmod ugo+rx $UHOME/.xsession
 
 # copy configuration
-mkdir /etc/shinage-player
-cp -r $SCRIPTPATH/skeleton/shinage-player-conf/* /etc/shinage-player/
-chmod 755 /etc/shinage-player/
-chmod -R 644 /etc/shinage-player/*
-
-# generate display ID
-uuidgen > /etc/shinage-player/uuid.conf
+/bin/bash $SCRIPTPATH/install-conf.sh
 
 mkdir -p /usr/local/bin/
 cp $SCRIPTPATH/skeleton/run-browser.sh /usr/local/bin/run-browser.sh
@@ -70,6 +66,11 @@ adduser sign input
 adduser sign video
 
 
+# screenshot script
+cp $SCRIPTPATH/skeleton/screenshot.sh /usr/local/bin/
+chmod ugo+rx /usr/local/bin/screenshot.sh
+
+
 # create mount folder for usb sticks and install udev scripts
 mkdir -p /mnt/usb
 cp $SCRIPTPATH/skeleton/write_lastmount.sh /mnt/
@@ -88,7 +89,4 @@ echo "tmpfs    /tmp        tmpfs    defaults,size=20%      0       0" >> /etc/fs
 echo "www-data  ALL = NOPASSWD: /sbin/reboot,/sbin/poweroff" >> /etc/sudoers
 
 
-
-# cleanup
-apt-get remove uuid-tools
 
